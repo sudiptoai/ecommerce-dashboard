@@ -41,36 +41,14 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-        <header className="bg-white shadow">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
             E-Commerce Dashboard
           </h1>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
-              {session.user?.image && (
-                <Image
-                  src={session.user.image}
-                  alt={session.user.name || 'User'}
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full"
-                />
-              )}
-              <div>
-                <p className="text-sm font-medium text-gray-900">{session.user?.name}</p>
-                <p className="text-xs text-gray-500">{session.user?.email}</p>
-              </div>
-            </div>
-            <button
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
-            >
-              Sign Out
-            </button>
-          </div>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Overview of your business performance
+          </p>
         </div>
-      </header>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -155,15 +133,6 @@ export default function DashboardPage() {
           </Card>
         </div>
       </div>
-      <div className="mt-8 rounded-lg bg-white p-6 shadow">
-          <h2 className="text-xl font-bold text-gray-900">
-            Welcome, {session.user?.name}!
-          </h2>
-          <p className="mt-2 text-gray-600">
-            You have successfully logged in with Google SSO. This is your e-commerce dashboard
-            where you can manage your products, orders, and customers.
-          </p>
-        </div>
     </DashboardLayout>
   );
 }
