@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import Image from 'next/image'
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
@@ -37,9 +38,11 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               {session.user?.image && (
-                <img
+                <Image
                   src={session.user.image}
                   alt={session.user.name || 'User'}
+                  width={40}
+                  height={40}
                   className="h-10 w-10 rounded-full"
                 />
               )}
