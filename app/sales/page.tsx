@@ -22,6 +22,14 @@ export default function SalesPage() {
   const totalSalesByCategory = salesByCategory.reduce((sum, cat) => sum + cat.sales, 0);
   const totalRevenue = salesByCategory.reduce((sum, cat) => sum + cat.revenue, 0);
   
+  // Reusable tooltip formatter
+  const formatTooltipValue = (value: number, name: string) => {
+    if (name === 'Revenue ($)') {
+      return [`$${value.toLocaleString()}`, name];
+    }
+    return [value.toLocaleString(), name];
+  };
+  
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -122,14 +130,7 @@ export default function SalesPage() {
                   stroke="#3b82f6"
                   label={{ value: 'Revenue ($)', angle: 90, position: 'insideRight' }}
                 />
-                <Tooltip 
-                  formatter={(value: number, name: string) => {
-                    if (name === 'Revenue ($)') {
-                      return [`$${value.toLocaleString()}`, name];
-                    }
-                    return [value.toLocaleString(), name];
-                  }}
-                />
+                <Tooltip formatter={formatTooltipValue} />
                 <Legend />
                 <Bar 
                   yAxisId="left"
@@ -264,14 +265,7 @@ export default function SalesPage() {
                   orientation="right"
                   label={{ value: 'Revenue ($)', angle: 90, position: 'insideRight' }}
                 />
-                <Tooltip 
-                  formatter={(value: number, name: string) => {
-                    if (name === 'Revenue ($)') {
-                      return [`$${value.toLocaleString()}`, name];
-                    }
-                    return [value.toLocaleString(), name];
-                  }}
-                />
+                <Tooltip formatter={formatTooltipValue} />
                 <Legend />
                 <Bar 
                   yAxisId="left"

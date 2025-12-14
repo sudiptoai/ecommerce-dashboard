@@ -13,6 +13,9 @@ export default function UsersPage() {
   const ageData = userDemographicsByAge.map(d => ({ ...d }));
   const locationData = userDemographicsByLocation.map(d => ({ ...d }));
 
+  // Calculate total users once
+  const totalUsers = userStats.activeUsers + userStats.repeatUsers + userStats.newUsers;
+
   const userSummaryStats = [
     {
       title: 'Active Users',
@@ -90,9 +93,10 @@ export default function UsersPage() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={(entry: any) => 
-                      `${entry.name} (${((entry.percent || 0) * 100).toFixed(1)}%)`
-                    }
+                    label={(entry) => {
+                      const data = entry as unknown as { name: string; percent: number };
+                      return `${data.name} (${((data.percent || 0) * 100).toFixed(1)}%)`;
+                    }}
                     outerRadius={120}
                     fill="#8884d8"
                     dataKey="value"
@@ -122,9 +126,10 @@ export default function UsersPage() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={(entry: any) => 
-                      `${entry.name} (${((entry.percent || 0) * 100).toFixed(1)}%)`
-                    }
+                    label={(entry) => {
+                      const data = entry as unknown as { name: string; percent: number };
+                      return `${data.name} (${((data.percent || 0) * 100).toFixed(1)}%)`;
+                    }}
                     outerRadius={120}
                     fill="#8884d8"
                     dataKey="value"
@@ -152,25 +157,25 @@ export default function UsersPage() {
               <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Total Users</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
-                  {(userStats.activeUsers + userStats.repeatUsers + userStats.newUsers).toLocaleString()}
+                  {totalUsers.toLocaleString()}
                 </p>
               </div>
               <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Retention Rate</p>
                 <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
-                  {((userStats.repeatUsers / (userStats.activeUsers + userStats.repeatUsers + userStats.newUsers)) * 100).toFixed(1)}%
+                  {((userStats.repeatUsers / totalUsers) * 100).toFixed(1)}%
                 </p>
               </div>
               <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">New User Rate</p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
-                  {((userStats.newUsers / (userStats.activeUsers + userStats.repeatUsers + userStats.newUsers)) * 100).toFixed(1)}%
+                  {((userStats.newUsers / totalUsers) * 100).toFixed(1)}%
                 </p>
               </div>
               <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Engagement Score</p>
                 <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">
-                  {((userStats.activeUsers / (userStats.activeUsers + userStats.repeatUsers + userStats.newUsers)) * 100).toFixed(1)}%
+                  {((userStats.activeUsers / totalUsers) * 100).toFixed(1)}%
                 </p>
               </div>
             </div>

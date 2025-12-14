@@ -74,9 +74,10 @@ export default function ExpensesPage() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={(entry: any) => 
-                      `${entry.category} (${entry.percentage}%)`
-                    }
+                    label={(entry) => {
+                      const data = entry as unknown as { category: string; percentage: number };
+                      return `${data.category} (${data.percentage}%)`;
+                    }}
                     outerRadius={120}
                     innerRadius={70}
                     fill="#8884d8"
