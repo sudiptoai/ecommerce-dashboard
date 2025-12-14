@@ -1,21 +1,22 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import './globals.css'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
-  title: "E-commerce Admin Dashboard",
-  description: "Admin portal for monitoring sales, revenue, warehouse, and products",
-};
+  title: 'E-Commerce Dashboard',
+  description: 'E-Commerce Dashboard with Google SSO',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
