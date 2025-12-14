@@ -1,36 +1,47 @@
-'use client'
+'use client';
 
-import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import Image from 'next/image'
+import { DashboardLayout } from '@/components/DashboardLayout';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
+import { dashboardStats, salesData } from '@/lib/mockData';
+import { DollarSign, ShoppingCart, Package, Users, TrendingUp, TrendingDown } from 'lucide-react';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-export default function Dashboard() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/')
-    }
-  }, [status, router])
-
-  if (status === 'loading') {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-xl">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!session) {
-    return null
-  }
+export default function DashboardPage() {
+  const stats = [
+    {
+      title: 'Total Revenue',
+      value: `$${dashboardStats.totalRevenue.toLocaleString()}`,
+      change: dashboardStats.revenueChange,
+      icon: DollarSign,
+      color: 'text-green-500',
+    },
+    {
+      title: 'Total Orders',
+      value: dashboardStats.totalOrders.toLocaleString(),
+      change: dashboardStats.ordersChange,
+      icon: ShoppingCart,
+      color: 'text-blue-500',
+    },
+    {
+      title: 'Total Products',
+      value: dashboardStats.totalProducts.toLocaleString(),
+      change: dashboardStats.productsChange,
+      icon: Package,
+      color: 'text-purple-500',
+    },
+    {
+      title: 'Total Customers',
+      value: dashboardStats.totalCustomers.toLocaleString(),
+      change: dashboardStats.customersChange,
+      icon: Users,
+      color: 'text-orange-500',
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
+    <DashboardLayout>
+      <div className="space-y-8">
+        <header className="bg-white shadow">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             E-Commerce Dashboard
@@ -61,87 +72,90 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Stats Card 1 */}
-          <div className="rounded-lg bg-white p-6 shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Sales</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">$0</p>
-              </div>
-              <div className="rounded-full bg-blue-100 p-3">
-                <svg
-                  className="h-8 w-8 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Card 2 */}
-          <div className="rounded-lg bg-white p-6 shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">0</p>
-              </div>
-              <div className="rounded-full bg-green-100 p-3">
-                <svg
-                  className="h-8 w-8 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Card 3 */}
-          <div className="rounded-lg bg-white p-6 shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Customers</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">0</p>
-              </div>
-              <div className="rounded-full bg-purple-100 p-3">
-                <svg
-                  className="h-8 w-8 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            const isPositive = stat.change >= 0;
+            return (
+              <Card key={stat.title}>
+                <CardContent className="flex items-start justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{stat.title}</p>
+                    <p className="text-2xl font-bold mt-2 text-gray-900 dark:text-gray-100">
+                      {stat.value}
+                    </p>
+                    <div className="flex items-center mt-2">
+                      {isPositive ? (
+                        <TrendingUp className="text-green-500" size={16} />
+                      ) : (
+                        <TrendingDown className="text-red-500" size={16} />
+                      )}
+                      <span
+                        className={`text-sm ml-1 ${
+                          isPositive ? 'text-green-500' : 'text-red-500'
+                        }`}
+                      >
+                        {isPositive ? '+' : ''}{stat.change}%
+                      </span>
+                      <span className="text-sm text-gray-500 ml-1">vs last month</span>
+                    </div>
+                  </div>
+                  <div className={`p-3 rounded-full bg-gray-100 dark:bg-gray-700 ${stat.color}`}>
+                    <Icon size={24} />
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
-        {/* Welcome Message */}
-        <div className="mt-8 rounded-lg bg-white p-6 shadow">
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Revenue Trend</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={salesData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    name="Revenue ($)"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Sales Volume</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={salesData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="sales" fill="#8b5cf6" name="Orders" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      <div className="mt-8 rounded-lg bg-white p-6 shadow">
           <h2 className="text-xl font-bold text-gray-900">
             Welcome, {session.user?.name}!
           </h2>
@@ -150,7 +164,6 @@ export default function Dashboard() {
             where you can manage your products, orders, and customers.
           </p>
         </div>
-      </main>
-    </div>
-  )
+    </DashboardLayout>
+  );
 }
