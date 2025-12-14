@@ -1,11 +1,17 @@
 interface CardProps {
   children: React.ReactNode;
   className?: string;
+  role?: string;
+  'aria-label'?: string;
 }
 
-export function Card({ children, className = "" }: CardProps) {
+export function Card({ children, className = "", role, 'aria-label': ariaLabel }: CardProps) {
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 ${className}`}>
+    <div 
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 ${className}`}
+      role={role}
+      aria-label={ariaLabel}
+    >
       {children}
     </div>
   );

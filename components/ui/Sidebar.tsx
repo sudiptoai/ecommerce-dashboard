@@ -9,14 +9,20 @@ import {
   Warehouse,
   BarChart3,
   Menu,
-  X
+  X,
+  Users,
+  DollarSign,
+  TrendingUp
 } from 'lucide-react';
 import { useState } from 'react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Sales Analytics', href: '/sales', icon: TrendingUp },
   { name: 'Products', href: '/products', icon: Package },
   { name: 'Orders', href: '/orders', icon: ShoppingCart },
+  { name: 'Users', href: '/users', icon: Users },
+  { name: 'Expenses', href: '/expenses', icon: DollarSign },
   { name: 'Warehouse', href: '/warehouse', icon: Warehouse },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
 ];
